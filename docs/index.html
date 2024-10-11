@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <title>My Google カレンダー</title>
+  <link rel="stylesheet" href="index.css">
+  <script src="index.js" defer></script>
+</head>
+
+<body>
+  <!-- <div id="g_id_onload" data-client_id="116417607992-actm7i33eptdhc9m5qfq3vobnmfh95ks.apps.googleusercontent.com"
+    data-callback="gisLoaded">
+  </div> -->
+  <div class="g_id_signin" data-type="standard"></div>
+  <main>
+    <form class="form-config">
+      <label>クライアント ID<input type="text" name="client-id" class="client-id"></label>
+      <label>APIキー<input type="text" name="api-key" class="api-key"></label>
+      <button type="submit" class="submit">送信</button>
+    </form>
+    <pre id="content"></pre>
+    <div class="grid"></div>
+    <!-- <div class="header"><button class="search" disabled>検索</button></div>
+    <div class="map"></div> -->
+  </main>
+</body>
+
+</html>

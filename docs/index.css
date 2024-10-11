@@ -1,0 +1,86 @@
+html,
+body,
+main {
+  height: 100%;
+  margin: 0;
+}
+
+main {
+  height: 100%;
+  /* display: grid;
+  grid-template-rows: max-content minmax(0, 100%); */
+}
+
+#content {
+  white-space: pre-wrap;
+}
+
+.form-config {
+  display: grid;
+  grid-template-columns: auto max-content;
+  grid-auto-flow: column;
+  grid-template-rows: max-content max-content;
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  padding: 5px;
+
+  >div {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+    color: #222222;
+    font-family: system-ui;
+
+    >div {
+      padding: 0 4px;
+      border-radius: 4px;
+    }
+
+    >div::before {
+      content: attr(title);
+    }
+  }
+
+  >div::before {
+    content: attr(title);
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  >div:nth-child(-n+7) {
+    text-align: center;
+    color: whitesmoke;
+    background-color: #222222;
+  }
+
+  >div:nth-child(6),
+  >div:nth-child(7),
+  >div:has(.holiday) {
+    color: whitesmoke;
+    background-color: yellowgreen;
+  }
+}
+
+.today {
+  background-color: #DDDDDD;
+  font-weight: bold;
+}
+
+.owner {
+  color: white;
+  background-color: dodgerblue;
+}
+
+.anniversary {
+  background-color: gold;
+}
+
+.event {
+  background-color: lavenderblush;
+}

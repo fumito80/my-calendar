@@ -1,0 +1,6 @@
+{
+  "name": "my-calendar",
+  "icons": [
+    { "src": "/favicon.png", "type": "image/png", "sizes": "256x256" }
+  ]
+}
