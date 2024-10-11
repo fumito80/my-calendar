@@ -49,7 +49,6 @@ main {
   >div::before {
     content: attr(title);
     display: block;
-    width: 100%;
     text-align: center;
   }
 
@@ -67,9 +66,18 @@ main {
   }
 }
 
-.today {
-  background-color: #DDDDDD;
+.today::before {
   font-weight: bold;
+  background-color: mediumvioletred;
+  border-radius: 50%;
+  color: white;
+  aspect-ratio: 1;
+  width: 2em;
+  line-height: 1.8em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -3px;
+  margin-bottom: 3px;
 }
 
 .owner {

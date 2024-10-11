@@ -6,7 +6,7 @@
     "dev": "webpack --config webpack.dev.js",
     "watch": "webpack --config webpack.dev.js -w",
     "build": "webpack --config webpack.prod.js",
-    "local-server": "npx http-server docs -p 8000"
+    "local-server": "npx http-server dist -p 8000"
   },
   "keywords": [],
   "author": "",

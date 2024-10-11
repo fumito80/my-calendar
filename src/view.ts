@@ -4,14 +4,14 @@ export function $<T>(selector: string) {
   return document.querySelector(selector) as T;
 }
 
-export type EventType = { type: 'holiday' | 'anniversary' | 'owner' | 'event', summay: string };
-export type Event = { dateStr: string, eventType: EventType['type'], summary: string };
+export type EventType = { summay: string, type: 'holiday' | 'anniversary' | 'owner' | 'event' };
+export type Event = { dateNum: number, eventType: EventType['type'], summary: string };
 
 type TDate = { date: Date, events: Event[] };
 type ReduceResult = { myEvents: Event[], dates: TDate[] };
 
-function truncToDate(date: Date | number) {
-  return Math.trunc(Number(date) / 86400000) * 86400000 + 54000000;
+export function truncToDate(date: Date | number) {
+  return Math.trunc((Number(date) - 54000000) / 86400000) * 86400000 + 54000000;
 }
 
 export function getStartDate() {
@@ -21,10 +21,8 @@ export function getStartDate() {
 
 function makeGrid(today: number) {
   return ({ date, events }: TDate) => {
-    const $grid = Object.assign(document.createElement('div'), {
-      'data-date': date.toLocaleDateString(),
-      title: date.getDate() === 1 ? date.toLocaleDateString() : date.getDate(),
-    });
+    const title = date.getDate() === 1 ? date.toLocaleDateString().substring(5) : date.getDate();
+    const $grid = Object.assign(document.createElement('div'), { title });
     if (Number(date) === today) {
       $grid.classList.add('today');
     }
@@ -34,21 +32,29 @@ function makeGrid(today: number) {
 }
 
 function getDaysEl() {
-  return ['月', '火', '水', '木', '金', '土', '日'].map((day) => {
-    const div = document.createElement('div');
-    div.textContent = day;
-    return div;
-  });
+  return ['月', '火', '水', '木', '金', '土', '日'].map((title) => Object.assign(document.createElement('div'), { title }));
+}
+
+function getEvents(myEvents: Event[], dateNum: number) {
+  const events = [];
+  for (let i = 0; i < myEvents.length; i += 1) {
+    if (myEvents[i].dateNum === dateNum) {
+      events.push(myEvents[i]);
+    } else if (myEvents[i].dateNum > dateNum) {
+      break;
+    }
+  }
+  return events;
 }
 
 export function draw(myEvents: Event[]) {
-  const sorted = myEvents.sort((a, b) => Number(new Date(a.dateStr)) - Number(new Date(b.dateStr)));
+  const sorted = myEvents.sort((a, b) => a.dateNum - b.dateNum);
   const $grid = $<HTMLDivElement>('.grid')!;
   $grid.innerHTML = '';
   const startDateNum = Number(getStartDate());
   const { dates } = [...Array(91)].reduce<ReduceResult>((acc, _, i) => {
     const date = new Date(startDateNum + oneDayNum * i);
-    const events = acc.myEvents.filter((event) => date.toLocaleDateString().replaceAll('/', '-') === event.dateStr);
+    const events = getEvents(acc.myEvents, Number(date));
     const eventsRemain = acc.myEvents.slice(events.length);
     return { myEvents: eventsRemain, dates: [...acc.dates, { date, events }] };
   }, { myEvents: sorted, dates: [] });

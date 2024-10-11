@@ -1,5 +1,5 @@
 import {
-  EventType, Event, draw, getStartDate, $,
+  EventType, Event, draw, getStartDate, truncToDate, $,
 } from './view';
 
 const SCRIPTS = [
@@ -18,7 +18,7 @@ const SCOPES = [
   'https://www.googleapis.com/auth/calendar.readonly',
 ];
 
-const KEY_ACCESS_TOKEN = 'accessToken';
+// const KEY_ACCESS_TOKEN = 'accessToken';
 
 const EVENT_TYPE: { [key: string]: EventType['type'] } = {
   21: 'event',
@@ -39,7 +39,7 @@ async function listEvents(item: { id: string, eventType: EventType['type'] }) {
   });
   return response.result.items.map((event) => ({
     eventType: (event.description === '祝日' && item.eventType === 'event') ? 'holiday' : item.eventType,
-    dateStr: event.start.date!,
+    dateNum: truncToDate(new Date(event.start.date!)),
     summary: event.summary,
   }));
 }
@@ -86,12 +86,13 @@ function checkAuth(
   resolve: Function,
   reject: (reason?: any) => void,
 ) {
-  return ({ access_token, error }: google.accounts.oauth2.TokenResponse) => {
+  return ({ error }: google.accounts.oauth2.TokenResponse) => {
     if (error !== undefined) {
       reject(error);
     }
-    sessionStorage.setItem(KEY_ACCESS_TOKEN, access_token);
-    // resolve(access_token);
+    // sessionStorage.setItem(KEY_ACCESS_TOKEN, access_token);
+    localStorage.setItem('apiKey', config.apiKey);
+    localStorage.setItem('clientId', config.clientId);
     resolve(config);
   };
 }
@@ -173,3 +174,8 @@ $<HTMLFormElement>('.form-config')?.addEventListener('submit', (e) => {
   loadScripts(SCRIPTS);
   e.preventDefault();
 });
+
+$<HTMLInputElement>('.api-key').value = localStorage.getItem('apiKey') || '';
+$<HTMLInputElement>('.client-id').value = localStorage.getItem('clientId') || '';
+
+loadScripts(SCRIPTS);
