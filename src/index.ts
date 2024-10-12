@@ -182,6 +182,6 @@ $<HTMLFormElement>('form-config')?.addEventListener('submit', (e) => {
 
 $<HTMLFormElement>('config')?.addEventListener('click', () => {
   const $formConfig = $<HTMLInputElement>('form-config');
-  const hidden = getComputedStyle($formConfig).maxHeight === '0px';
-  $formConfig.style.maxHeight = hidden ? '100vh' : '0';
+  const hidden = getComputedStyle($formConfig).display === 'none';
+  $formConfig.style.display = hidden ? 'flex' : 'none';
 });

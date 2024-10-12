@@ -31,8 +31,7 @@ main {
 .form-config {
   display: flex;
   gap: 5px;
-  max-height: 0;
-  transition: max-height 300ms;
+  display: none;
 }
 
 .header {
