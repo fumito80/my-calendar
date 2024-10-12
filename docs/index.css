@@ -1,39 +1,58 @@
+:root {
+  --calendar-border-color: #DDDDDD;
+
+  --font-color-light: whitesmoke;
+  --font-color-dark: #222222;
+
+  --bg-color-month-1: #DDDDDD;
+  --bg-color-month-2: #BBBBBB;
+
+  --bg-color-holiday: yellowgreen;
+  --bg-color-weekday: #222222;
+  --bg-color-today: mediumvioletred;
+
+  --bg-color-event-owner: dodgerblue;
+  --bg-color-event-anniversary: gold;
+  --bg-color-event: lavenderblush;
+}
+
 html,
 body,
 main {
   height: 100%;
   margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 main {
-  height: 100%;
-  /* display: grid;
-  grid-template-rows: max-content minmax(0, 100%); */
-}
-
-#content {
-  white-space: pre-wrap;
+  padding: 0 5px;
 }
 
 .form-config {
-  display: grid;
-  grid-template-columns: auto max-content;
-  grid-auto-flow: column;
-  grid-template-rows: max-content max-content;
-  width: 100%;
+  display: flex;
+  gap: 5px;
+  max-height: 0;
+  transition: max-height 300ms;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+  position: relative;
+  background-color: white;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
-  padding: 5px;
 
   >div {
-    border: 1px solid #ddd;
+    border: 1px solid var(--calendar-border-color);
     border-radius: 5px;
     padding: 5px;
-    color: #222222;
+    color: var(--font-color-dark);
     font-family: system-ui;
 
     >div {
@@ -53,27 +72,26 @@ main {
   }
 
   >div:nth-child(-n+7) {
-    text-align: center;
-    color: whitesmoke;
-    background-color: #222222;
+    color: var(--font-color-light);
+    background-color: var(--bg-color-weekday);
   }
 
   >div:nth-child(6),
   >div:nth-child(7),
-  >div:has(.holiday) {
-    color: whitesmoke;
-    background-color: yellowgreen;
+  >div>div.holiday {
+    color: var(--font-color-light);
+    background-color: var(--bg-color-holiday);
   }
 }
 
 .today::before {
   font-weight: bold;
-  background-color: mediumvioletred;
+  background-color: var(--bg-color-today);
   border-radius: 50%;
-  color: white;
+  color: var(--font-color-light);
   aspect-ratio: 1;
   width: 2em;
-  line-height: 1.8em;
+  line-height: 1.9em;
   margin-left: auto;
   margin-right: auto;
   margin-top: -3px;
@@ -81,14 +99,22 @@ main {
 }
 
 .owner {
-  color: white;
-  background-color: dodgerblue;
+  color: var(--font-color-light);
+  background-color: var(--bg-color-event-owner);
 }
 
 .anniversary {
-  background-color: gold;
+  background-color: var(--bg-color-event-anniversary);
 }
 
 .event {
-  background-color: lavenderblush;
+  background-color: var(--bg-color-event);
+}
+
+.month-1 {
+  background-color: var(--bg-color-month-1);
+}
+
+.month-2 {
+  background-color: var(--bg-color-month-2);
 }

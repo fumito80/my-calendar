@@ -1,7 +1,7 @@
 const oneDayNum = 1000 * 60 * 60 * 24;
 
 export function $<T>(selector: string) {
-  return document.querySelector(selector) as T;
+  return document.getElementsByClassName(selector)[0] as T;
 }
 
 export type EventType = { summay: string, type: 'holiday' | 'anniversary' | 'owner' | 'event' };
@@ -20,12 +20,15 @@ export function getStartDate() {
 }
 
 function makeGrid(today: number) {
+  const thisMonth = new Date(today).getMonth();
   return ({ date, events }: TDate) => {
     const title = date.getDate() === 1 ? date.toLocaleDateString().substring(5) : date.getDate();
     const $grid = Object.assign(document.createElement('div'), { title });
     if (Number(date) === today) {
       $grid.classList.add('today');
     }
+    const monthes = Math.abs(date.getMonth() - thisMonth);
+    $grid.classList.add(`month-${monthes}`);
     $grid.append(...events.map(({ summary, eventType }) => Object.assign(document.createElement('div'), { title: summary, className: eventType })));
     return $grid;
   };
@@ -44,18 +47,19 @@ function getEvents(myEvents: Event[], dateNum: number) {
       break;
     }
   }
-  return events;
+  const eventsRemain = myEvents.slice(events.length);
+  return [events, eventsRemain];
 }
 
 export function draw(myEvents: Event[]) {
+  $<HTMLDivElement>('year').textContent = `${String((new Date()).getFullYear())}（令和${String((new Date()).getFullYear() - 2018)}年）`;
   const sorted = myEvents.sort((a, b) => a.dateNum - b.dateNum);
-  const $grid = $<HTMLDivElement>('.grid')!;
+  const $grid = $<HTMLDivElement>('grid')!;
   $grid.innerHTML = '';
   const startDateNum = Number(getStartDate());
   const { dates } = [...Array(91)].reduce<ReduceResult>((acc, _, i) => {
     const date = new Date(startDateNum + oneDayNum * i);
-    const events = getEvents(acc.myEvents, Number(date));
-    const eventsRemain = acc.myEvents.slice(events.length);
+    const [events, eventsRemain] = getEvents(acc.myEvents, Number(date));
     return { myEvents: eventsRemain, dates: [...acc.dates, { date, events }] };
   }, { myEvents: sorted, dates: [] });
   $grid.append(...getDaysEl(), ...dates.map(makeGrid(truncToDate(Date.now()))));

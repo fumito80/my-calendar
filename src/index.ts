@@ -62,8 +62,8 @@ async function addEvents([item, ...items]: Calendars, events: Event[] = []) {
 }
 
 function getConfig() {
-  const apiKey = $<HTMLInputElement>('.api-key')?.value;
-  const clientId = $<HTMLInputElement>('.client-id')?.value;
+  const apiKey = $<HTMLInputElement>('api-key')?.value;
+  const clientId = $<HTMLInputElement>('client-id')?.value;
   if (!apiKey || !clientId) {
     return Promise.reject();
   }
@@ -170,12 +170,18 @@ async function loadScripts(uris: string[]) {
 // authorized().then(initializeMap);
 // loadScripts(SCRIPTS);
 
-$<HTMLFormElement>('.form-config')?.addEventListener('submit', (e) => {
+$<HTMLInputElement>('api-key').value = localStorage.getItem('apiKey') || '';
+$<HTMLInputElement>('client-id').value = localStorage.getItem('clientId') || '';
+
+loadScripts(SCRIPTS);
+
+$<HTMLFormElement>('form-config')?.addEventListener('submit', (e) => {
   loadScripts(SCRIPTS);
   e.preventDefault();
 });
 
-$<HTMLInputElement>('.api-key').value = localStorage.getItem('apiKey') || '';
-$<HTMLInputElement>('.client-id').value = localStorage.getItem('clientId') || '';
-
-loadScripts(SCRIPTS);
+$<HTMLFormElement>('config')?.addEventListener('click', () => {
+  const $formConfig = $<HTMLInputElement>('form-config');
+  const hidden = getComputedStyle($formConfig).maxHeight === '0px';
+  $formConfig.style.maxHeight = hidden ? '100vh' : '0';
+});
