@@ -61,6 +61,10 @@ main {
 
     >div::before {
       content: attr(title);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
   }
 
@@ -73,6 +77,8 @@ main {
   >div:nth-child(-n+7) {
     color: var(--font-color-light);
     background-color: var(--bg-color-weekday);
+    position: sticky;
+    top: 2px;
   }
 
   >div:nth-child(6),
