@@ -7,7 +7,6 @@ const WebpackNotifierPlugin = require('webpack-notifier');
 module.exports = {
   entry: {
     index: './src/index.ts',
-    view: './src/view.ts',
     // login: './src/login.ts',
   },
   output: {
@@ -28,7 +27,6 @@ module.exports = {
         use: [
           // MiniCssExtractPlugin.loader,
           'css-loader',
-          // 'sass-loader',
         ],
       },
     ],
@@ -46,7 +44,6 @@ module.exports = {
     // }),
     new CopyPlugin({
       patterns: [
-        // { from: '*.js', context: 'src/' },
         { from: '*.html', context: 'src/view/' },
         { from: '*.css', context: 'src/view/' },
         { from: '*.*', context: 'src/assets/' },
