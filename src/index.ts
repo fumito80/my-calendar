@@ -181,7 +181,7 @@ $<HTMLFormElement>('form-config')?.addEventListener('submit', (e) => {
 });
 
 $<HTMLFormElement>('config')?.addEventListener('click', () => {
-  const $formConfig = $<HTMLInputElement>('form-config');
-  const hidden = getComputedStyle($formConfig).display === 'none';
-  $formConfig.style.display = hidden ? 'flex' : 'none';
+  const $main = $<HTMLElement>('main');
+  const method = $main.classList.contains('hide-config') ? 'remove' : 'add';
+  $main.classList[method]('hide-config');
 });

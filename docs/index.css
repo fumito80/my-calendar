@@ -26,12 +26,22 @@ main {
 
 main {
   padding: 0 5px;
+
+  &.hide-config {
+    .form-config {
+      display: none;
+    }
+
+    .config {
+      rotate: -90deg;
+      translate: -0.5rem;
+    }
+  }
 }
 
 .form-config {
   display: flex;
   gap: 5px;
-  display: none;
 }
 
 .header {
@@ -40,6 +50,14 @@ main {
   padding: 2px 0;
   position: relative;
   background-color: white;
+
+  .config {
+    position: fixed;
+    right: 0.5rem;
+    rotate: 90deg;
+    cursor: pointer;
+    scale: 1 1.8;
+  }
 }
 
 .grid {
@@ -48,6 +66,7 @@ main {
   gap: 5px;
 
   >div {
+    position: relative;
     border: 1px solid var(--calendar-border-color);
     border-radius: 5px;
     padding: 5px;
@@ -57,50 +76,61 @@ main {
     >div {
       padding: 0 4px;
       border-radius: 4px;
+      z-index: 1;
+
+      &::before {
+        content: attr(title);
+        position: relative;
+        z-index: 1;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
     }
 
-    >div::before {
+    &::before {
       content: attr(title);
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      display: block;
+      text-align: center;
     }
-  }
-
-  >div::before {
-    content: attr(title);
-    display: block;
-    text-align: center;
   }
 
   >div:nth-child(-n+7) {
+    position: sticky;
+    z-index: 2;
+    top: 2px;
     color: var(--font-color-light);
     background-color: var(--bg-color-weekday);
-    position: sticky;
-    top: 2px;
   }
 
-  >div:nth-child(6),
-  >div:nth-child(7),
+  >div:nth-child(1),
+  >div:nth-child(2),
   >div>div.holiday {
     color: var(--font-color-light);
     background-color: var(--bg-color-holiday);
   }
+
+  >.holiday::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--bg-color-holiday);
+    filter: opacity(0.2);
+  }
 }
 
-.today::before {
-  font-weight: bold;
-  background-color: var(--bg-color-today);
-  border-radius: 50%;
-  color: var(--font-color-light);
-  aspect-ratio: 1;
-  width: 2em;
-  line-height: 1.9em;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: -3px;
-  margin-bottom: 3px;
+.today {
+  border-color: var(--bg-color-today) !important;
+
+  &::before {
+    font-weight: bold;
+    color: var(--bg-color-today);
+  }
 }
 
 .owner {

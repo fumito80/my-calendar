@@ -16,16 +16,21 @@ export function truncToDate(date: Date | number) {
 
 export function getStartDate() {
   const day1 = (new Date(truncToDate((new Date()).setDate(1))));
-  return new Date(Number(day1) - ((day1.getDay() + 6) % 7) * oneDayNum);
+  return new Date(Number(day1) - (((day1.getDay() + 1) % 7) + 7) * oneDayNum);
 }
 
 function makeGrid(today: number) {
   const thisMonth = new Date(today).getMonth();
-  return ({ date, events }: TDate) => {
-    const title = date.getDate() === 1 ? date.toLocaleDateString().substring(5) : date.getDate();
+  return ({ date, events }: TDate, index: number) => {
+    const title = (!index || date.getDate() === 1)
+      ? date.toLocaleDateString().substring(5)
+      : date.getDate();
     const $grid = Object.assign(document.createElement('div'), { title });
     if (Number(date) === today) {
       $grid.classList.add('today');
+    }
+    if (index % 7 < 2) {
+      $grid.classList.add('holiday');
     }
     const monthes = Math.abs(date.getMonth() - thisMonth);
     $grid.classList.add(`month-${monthes}`);
@@ -35,7 +40,7 @@ function makeGrid(today: number) {
 }
 
 function getDaysEl() {
-  return ['月', '火', '水', '木', '金', '土', '日'].map((title) => Object.assign(document.createElement('div'), { title }));
+  return ['土', '日', '月', '火', '水', '木', '金'].map((title) => Object.assign(document.createElement('div'), { title }));
 }
 
 function getEvents(myEvents: Event[], dateNum: number) {
@@ -57,7 +62,7 @@ export function draw(myEvents: Event[]) {
   const $grid = $<HTMLDivElement>('grid')!;
   $grid.innerHTML = '';
   const startDateNum = Number(getStartDate());
-  const { dates } = [...Array(91)].reduce<ReduceResult>((acc, _, i) => {
+  const { dates } = [...Array(105)].reduce<ReduceResult>((acc, _, i) => {
     const date = new Date(startDateNum + oneDayNum * i);
     const [events, eventsRemain] = getEvents(acc.myEvents, Number(date));
     return { myEvents: eventsRemain, dates: [...acc.dates, { date, events }] };
