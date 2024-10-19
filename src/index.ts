@@ -1,5 +1,5 @@
 import {
-  EventType, Event, draw, getStartDate, truncToDate, $,
+  today, DAYS, EventType, Event, draw, getStartDate, $,
 } from './view';
 
 const SCRIPTS = [
@@ -26,7 +26,12 @@ const EVENT_TYPE: { [key: string]: EventType['type'] } = {
   15: 'owner',
 };
 
-type PromiseType<T> = T extends (...a: any) => Promise<infer S> ? NonNullable<S> : never;
+type AnyFunction = (...a: any) => any;
+type PromiseFunction = (...a: any) => Promise<any>;
+
+type FunctionReturn<T> = T extends PromiseFunction
+  ? Awaited<ReturnType<T>>
+  : T extends AnyFunction ? ReturnType<T> : never;
 
 async function listEvents(item: { id: string, eventType: EventType['type'] }) {
   const response = await gapi.client.calendar.events.list({
@@ -39,7 +44,7 @@ async function listEvents(item: { id: string, eventType: EventType['type'] }) {
   });
   return response.result.items.map((event) => ({
     eventType: (event.description === '祝日' && item.eventType === 'event') ? 'holiday' : item.eventType,
-    dateNum: truncToDate(new Date(event.start.date!)),
+    dateNum: Number(new Date(event.start.date!.replaceAll('-', '/'))),
     summary: event.summary,
   }));
 }
@@ -51,7 +56,7 @@ async function listCalendar() {
   }));
 }
 
-type Calendars = PromiseType<typeof listCalendar>;
+type Calendars = FunctionReturn<typeof listCalendar>;
 
 async function addEvents([item, ...items]: Calendars, events: Event[] = []) {
   if (!item) {
@@ -70,7 +75,7 @@ function getConfig() {
   return Promise.resolve({ apiKey, clientId });
 }
 
-type GetConfigReturnType = PromiseType<typeof getConfig>;
+type GetConfigReturnType = FunctionReturn<typeof getConfig>;
 
 async function initializeGapiClient(config: GetConfigReturnType) {
   return gapi.client.init({
@@ -102,7 +107,7 @@ function loadGis(authed: boolean) {
     if (authed) {
       return config;
     }
-    return new Promise<PromiseType<typeof getConfig>>((resolve, reject) => {
+    return new Promise<FunctionReturn<typeof getConfig>>((resolve, reject) => {
       const tokenClient = google.accounts.oauth2.initTokenClient({
         scope: SCOPES.join(' '),
         client_id: config.clientId,
@@ -185,3 +190,9 @@ $<HTMLFormElement>('config')?.addEventListener('click', () => {
   const method = $main.classList.contains('hide-config') ? 'remove' : 'add';
   $main.classList[method]('hide-config');
 });
+
+$<HTMLDivElement>('date').textContent = today
+  .toLocaleDateString()
+  .replace('/', `年（令和${today.getFullYear() - 2018}年）`)
+  .replace('/', '月')
+  .concat(`日 ${DAYS[(today.getDay() + 1) % 7]}曜日`);
