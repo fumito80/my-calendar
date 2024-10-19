@@ -141,7 +141,16 @@ async function checkToken(accessToken: string) {
   return !!auth.azp;
 }
 
-async function loadScripts(uris: string[]) {
+async function loadScripts() {
+  const scripts = SCRIPTS.map((uri) => new Promise<void>((resolve) => {
+    const $script = document.head.appendChild(document.createElement('script'));
+    $script.src = uri;
+    $script.addEventListener('load', () => resolve());
+  }));
+  return Promise.all(scripts);
+}
+
+async function run() {
   const accessToken = (typeof gapi !== 'undefined') ? gapi.client?.getToken() : undefined;
   if (accessToken) {
     if (await checkToken(accessToken.access_token)) {
@@ -152,15 +161,10 @@ async function loadScripts(uris: string[]) {
         .catch(console.error);
     }
   }
-  const scripts = uris.map((uri) => new Promise((resolve) => {
-    const $script = document.head.appendChild(document.createElement('script'));
-    $script.src = uri;
-    $script.addEventListener('load', resolve);
-  }));
   // const savedAccessToken = sessionStorage.getItem('accessToken');
   // const authed = !!savedAccessToken && await checkToken(savedAccessToken);
   const authed = false;
-  return Promise.all(scripts)
+  return loadScripts()
     .then(loadGapiClient)
     .then(getConfig)
     .then(loadGis(authed))
@@ -175,13 +179,13 @@ async function loadScripts(uris: string[]) {
 // authorized().then(initializeMap);
 // loadScripts(SCRIPTS);
 
+run();
+
 $<HTMLInputElement>('api-key').value = localStorage.getItem('apiKey') || '';
 $<HTMLInputElement>('client-id').value = localStorage.getItem('clientId') || '';
 
-loadScripts(SCRIPTS);
-
 $<HTMLFormElement>('form-config')?.addEventListener('submit', (e) => {
-  loadScripts(SCRIPTS);
+  run();
   e.preventDefault();
 });
 
