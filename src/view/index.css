@@ -1,5 +1,5 @@
 :root {
-  --calendar-border-color: #DDDDDD;
+  --calendar-border-color: #CCCCCC;
 
   --font-color-light: whitesmoke;
   --font-color-dark: #222222;
@@ -69,8 +69,10 @@ main {
   >div {
     position: relative;
     border: 1px solid var(--calendar-border-color);
+    border-width: 0 1px 1px 0;
     border-radius: 5px;
     padding: 5px;
+    min-height: 3em;
     color: var(--font-color-dark);
 
     >div {
@@ -100,6 +102,7 @@ main {
     position: sticky;
     z-index: 2;
     top: 2px;
+    min-height: unset;
     color: var(--font-color-light);
     background-color: var(--bg-color-weekday);
   }
@@ -126,9 +129,10 @@ main {
 
 .today {
   border-color: var(--bg-color-today) !important;
+  border-width: 1px !important;
 
   &::before {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: bold;
     color: var(--bg-color-today);
   }
