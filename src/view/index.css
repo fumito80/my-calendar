@@ -1,6 +1,7 @@
 :root {
   --calendar-border-color: #CCCCCC;
 
+  --font-color-today: navy;
   --font-color-light: whitesmoke;
   --font-color-dark: #222222;
 
@@ -14,6 +15,8 @@
   --bg-color-event-owner: dodgerblue;
   --bg-color-event-anniversary: gold;
   --bg-color-event: lavenderblush;
+
+  --boxshadow-color-today: #333333;
 }
 
 html,
@@ -47,7 +50,7 @@ main {
 .header {
   display: flex;
   justify-content: space-between;
-  padding: 2px 0;
+  padding: 5px 0;
   position: relative;
   background-color: white;
 
@@ -68,8 +71,6 @@ main {
 
   >div {
     position: relative;
-    border: 1px solid var(--calendar-border-color);
-    border-width: 0 1px 1px 0;
     border-radius: 5px;
     padding: 5px;
     min-height: 3em;
@@ -114,28 +115,28 @@ main {
     background-color: var(--bg-color-holiday);
   }
 
-  >.holiday::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: var(--bg-color-holiday);
-    filter: opacity(0.2);
-  }
 }
 
 .today {
-  border-color: var(--bg-color-today) !important;
-  border-width: 1px !important;
+  box-shadow: 2px 2px 4px 1px var(--boxshadow-color-today);
 
   &::before {
     font-size: 1.4rem;
     font-weight: bold;
-    color: var(--bg-color-today);
+    color: var(--font-color-today);
   }
+}
+
+.holiday::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--bg-color-holiday);
+  filter: opacity(0.2);
 }
 
 .owner {
@@ -149,6 +150,12 @@ main {
 
 .event {
   background-color: var(--bg-color-event);
+}
+
+.month-0 {
+  border-width: 0 1px 1px 0;
+  border-style: solid;
+  border-color: var(--calendar-border-color);
 }
 
 .month-1 {
