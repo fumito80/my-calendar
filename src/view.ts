@@ -69,4 +69,5 @@ export function draw(myEvents: Event[]) {
     return { myEvents: eventsRemain, dates: [...acc.dates, { date, events }] };
   }, { myEvents: sorted, dates: [] });
   $grid.append(...getDaysEl(), ...dates.map(makeGrid));
+  return myEvents;
 }

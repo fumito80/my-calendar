@@ -43,8 +43,28 @@ main {
 }
 
 .form-config {
-  display: flex;
+  display: grid;
   gap: 5px;
+  grid-template-columns: 1fr max-content max-content;
+  grid-template-rows: auto auto;
+  grid-auto-flow: column;
+
+  >label {
+    grid-column: 2 / 3;
+    text-align: end;
+
+    &::before {
+      content: attr(title);
+    }
+
+    input {
+      margin-left: 5px;
+    }
+  }
+
+  >button {
+    grid-column: 3 / 3;
+  }
 }
 
 .header {
@@ -61,6 +81,16 @@ main {
     cursor: pointer;
     scale: 1 1.8;
     transition: all 0.2s;
+  }
+
+  .date {
+    display: flex;
+    justify-content: center;    
+    width: 100%;
+  }
+
+  .refresh {
+    cursor: pointer;
   }
 }
 

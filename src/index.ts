@@ -102,8 +102,8 @@ function checkAuth(
   };
 }
 
-function loadGis(authed: boolean) {
-  return async (config: GetConfigReturnType) => {
+function loadGis(config: GetConfigReturnType, authed: boolean) {
+  return () => {
     if (authed) {
       return config;
     }
@@ -150,7 +150,36 @@ async function loadScripts() {
   return Promise.all(scripts);
 }
 
-async function run() {
+function isEvents(arg: any): arg is Event[] {
+  if (!Array.isArray(arg)) {
+    return false;
+  }
+  return typeof arg[0]?.dateNum === 'number' && typeof arg[0]?.summary === 'string' && typeof arg[0]?.eventType === 'string';
+}
+
+function getEventsLocal({ apiKey }: GetConfigReturnType) {
+  const storage = sessionStorage.getItem(apiKey);
+  if (storage) {
+    const events = JSON.parse(storage);
+    if (isEvents(events)) {
+      return events;
+    }
+  }
+  return undefined;
+}
+
+function setEventsLocal({ apiKey }: GetConfigReturnType) {
+  return (events: Event[]) => {
+    sessionStorage.setItem(apiKey, JSON.stringify(events));
+  };
+}
+
+async function run(reload = false) {
+  const config = await getConfig();
+  const events = getEventsLocal(config);
+  if (!reload && events) {
+    return draw(events);
+  }
   const accessToken = (typeof gapi !== 'undefined') ? gapi.client?.getToken() : undefined;
   if (accessToken) {
     if (await checkToken(accessToken.access_token)) {
@@ -166,12 +195,12 @@ async function run() {
   const authed = false;
   return loadScripts()
     .then(loadGapiClient)
-    .then(getConfig)
-    .then(loadGis(authed))
+    .then(loadGis(config, authed))
     .then(initializeGapiClient)
     .then(listCalendar)
     .then(addEvents)
     .then(draw)
+    .then(setEventsLocal(config))
     // eslint-disable-next-line no-console
     .catch(console.error);
 }
@@ -179,7 +208,13 @@ async function run() {
 // authorized().then(initializeMap);
 // loadScripts(SCRIPTS);
 
-run();
+const date = today
+  .toLocaleDateString()
+  .replace('/', `年（令和${today.getFullYear() - 2018}年）`)
+  .replace('/', '月')
+  .concat(`日 ${DAYS[(today.getDay() + 1) % 7]}曜日`);
+
+$<HTMLDivElement>('date').prepend(document.createTextNode(date));
 
 $<HTMLInputElement>('api-key').value = localStorage.getItem('apiKey') || '';
 $<HTMLInputElement>('client-id').value = localStorage.getItem('clientId') || '';
@@ -195,8 +230,8 @@ $<HTMLFormElement>('config')?.addEventListener('click', () => {
   $main.classList[method]('hide-config');
 });
 
-$<HTMLDivElement>('date').textContent = today
-  .toLocaleDateString()
-  .replace('/', `年（令和${today.getFullYear() - 2018}年）`)
-  .replace('/', '月')
-  .concat(`日 ${DAYS[(today.getDay() + 1) % 7]}曜日`);
+$<HTMLFormElement>('refresh')?.addEventListener('click', () => {
+  run(true);
+});
+
+run();
