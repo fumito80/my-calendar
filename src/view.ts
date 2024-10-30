@@ -69,5 +69,7 @@ export function draw(myEvents: Event[]) {
     return { myEvents: eventsRemain, dates: [...acc.dates, { date, events }] };
   }, { myEvents: sorted, dates: [] });
   $grid.append(...getDaysEl(), ...dates.map(makeGrid));
+  const todaysDay = (today.getDay() + 1) % 7;
+  $grid.children[todaysDay].classList.add('todays-day');
   return myEvents;
 }

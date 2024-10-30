@@ -77,9 +77,9 @@ function getConfig() {
 
 type GetConfigReturnType = FunctionReturn<typeof getConfig>;
 
-async function initializeGapiClient(config: GetConfigReturnType) {
+async function initializeGapiClient({ apiKey }: GetConfigReturnType) {
   return gapi.client.init({
-    apiKey: config.apiKey,
+    apiKey,
     discoveryDocs: DISCOVERY_DOCS,
   });
   // gapiInited = true;
@@ -89,7 +89,7 @@ async function initializeGapiClient(config: GetConfigReturnType) {
 function checkAuth(
   config: GetConfigReturnType,
   resolve: Function,
-  reject: (reason?: any) => void,
+  reject: Function,
 ) {
   return ({ error }: google.accounts.oauth2.TokenResponse) => {
     if (error !== undefined) {
