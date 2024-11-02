@@ -25,10 +25,11 @@ export function getStartDate() {
 }
 
 function makeGrid({ date, events }: TDate, index: number) {
-  const title = (!index || date.getDate() === 1)
+  const textContent = (!index || date.getDate() === 1)
     ? date.toLocaleDateString().substring(5)
     : date.getDate();
-  const $grid = Object.assign(document.createElement('div'), { title });
+  const title = date.toLocaleDateString();
+  const $grid = Object.assign(document.createElement('div'), { textContent, title });
   if (Number(date) === Number(today)) {
     $grid.classList.add('today');
   }

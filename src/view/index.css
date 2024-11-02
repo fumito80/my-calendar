@@ -89,7 +89,7 @@ main {
 
   .date {
     display: flex;
-    justify-content: center;    
+    justify-content: center;
     width: 100%;
   }
 
@@ -103,6 +103,7 @@ main {
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
   padding-bottom: 5px;
+  text-align: center;
 
   >div {
     position: relative;
@@ -126,37 +127,52 @@ main {
         overflow: hidden;
       }
     }
-
-    &::before {
-      content: attr(title);
-      display: block;
-      text-align: center;
-    }
   }
 
   >div:nth-child(-n+7) {
     position: sticky;
     z-index: 2;
-    top: 2px;
-    min-height: unset;
-    color: var(--font-color-dark);
-    border: 1px solid var(--border-color-weekday);
+    top: 0;
+    min-height: 1.3rem;
     background-color: var(--bg-color-day);
+    border-radius: 0;
+
+    &::before {
+      content: attr(title);
+      position: absolute;
+      display: flex;
+      box-sizing: border-box;
+      justify-content: center;
+      align-items: center;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+      border: 1px solid var(--border-color-weekday);
+      color: var(--font-color-dark);
+    }
 
     &.todays-day {
-      color: var(--font-color-light);
-      background-color: var(--bg-color-weekday);
+      &::before {
+        color: var(--font-color-light);
+        background-color: var(--bg-color-weekday);
+      }
     }
   }
 
   >div:nth-child(1),
   >div:nth-child(2) {
-    color: var(--font-color-holiday);
-    border: 1px solid var(--bg-color-holiday);
+    &::before {
+      color: var(--font-color-holiday);
+      border: 1px solid var(--bg-color-holiday);
+    }
 
     &.todays-day {
-      color: var(--font-color-light);
-      background-color: var(--bg-color-holiday);
+      &::before {
+        color: var(--font-color-light);
+        background-color: var(--bg-color-holiday);
+      }
     }
   }
 
