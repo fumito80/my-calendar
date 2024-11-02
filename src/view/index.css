@@ -21,6 +21,8 @@
   --border-color-weekday: #999999;
 
   --boxshadow-color-today: #333333;
+
+  interpolate-size: allow-keywords;
 }
 
 html,
@@ -36,7 +38,7 @@ main {
 
   &.hide-config {
     .form-config {
-      display: none;
+      height: 0;
     }
 
     .config {
@@ -47,27 +49,32 @@ main {
 }
 
 .form-config {
-  display: grid;
-  gap: 5px;
-  grid-template-columns: 1fr max-content max-content;
-  grid-template-rows: auto auto;
-  grid-auto-flow: column;
+  transition: 200ms height ease;
+  overflow: hidden;
 
-  >label {
-    grid-column: 2 / 3;
-    text-align: end;
+  >div {
+    display: grid;
+    gap: 5px;
+    grid-template-columns: 1fr max-content max-content max-content;
+    margin: 5px;
+    padding: 10px 5px;
+    background-color: #efefef;
 
-    &::before {
-      content: attr(title);
+    >label {
+      grid-column: 2;
+      text-align: end;
     }
 
-    input {
-      margin-left: 5px;
+    >input {
+      grid-column: 3;
+      field-sizing: content;
+      max-width: 600px;
     }
-  }
 
-  >button {
-    grid-column: 3 / 3;
+    >button {
+      grid-row: 1;
+      grid-column: 4;
+    }
   }
 }
 
@@ -113,6 +120,7 @@ main {
     color: var(--font-color-dark);
 
     >div {
+      text-align: left;
       padding: 0 4px;
       border-radius: 4px;
       z-index: 1;
@@ -123,6 +131,7 @@ main {
         z-index: 1;
         display: -webkit-box;
         -webkit-line-clamp: 3;
+        line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
