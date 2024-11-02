@@ -28,6 +28,7 @@
     "lines-between-class-members": "off",
     "@typescript-eslint/adjacent-overload-signatures": "error",
     "@typescript-eslint/prefer-function-type": "off",
+    "no-console": ["warn", { "allow": ["info", "warn", "error"] }],
     "import/extensions": [
       "error",
       "ignorePackages",
