@@ -3,16 +3,16 @@
   "short_name": "GCAL-3",
   "icons": [
     {
-      "src": "/calendar_192.png",
+      "src": "calendar_192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/calendar_512.png",
+      "src": "calendar_512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "index.html",
   "display": "standalone"
 }

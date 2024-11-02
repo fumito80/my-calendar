@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-globals */
 const CACHE_NAME = 'google-calendar-3';
 const urlsToCache = [
-  '/index.js',
-  '/index.css',
+  'index.js',
+  'index.css',
 ];
 
 self.addEventListener('install', (e) => {
