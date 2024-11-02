@@ -55,25 +55,14 @@ main {
   >div {
     display: grid;
     gap: 5px;
-    grid-template-columns: 1fr max-content max-content max-content;
-    margin: 5px;
+    grid-template-columns: max-content 1fr max-content;
+    margin: 5px 0;
     padding: 10px 5px;
     background-color: #efefef;
 
-    >label {
-      grid-column: 2;
-      text-align: end;
-    }
-
-    >input {
-      grid-column: 3;
-      field-sizing: content;
-      max-width: 600px;
-    }
-
     >button {
       grid-row: 1;
-      grid-column: 4;
+      grid-column: 3;
     }
   }
 }
