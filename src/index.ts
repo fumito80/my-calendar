@@ -220,7 +220,7 @@ $<HTMLInputElement>('api-key').value = localStorage.getItem('apiKey') || '';
 $<HTMLInputElement>('client-id').value = localStorage.getItem('clientId') || '';
 
 $<HTMLFormElement>('form-config')?.addEventListener('submit', (e) => {
-  run();
+  run(true);
   e.preventDefault();
 });
 
