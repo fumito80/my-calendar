@@ -52,7 +52,7 @@ main {
   transition: 200ms height ease;
   overflow: hidden;
 
-  >div {
+  >.auth {
     display: grid;
     gap: 5px;
     grid-template-columns: max-content 1fr max-content;
