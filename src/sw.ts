@@ -4,6 +4,7 @@ declare const self: ServiceWorkerGlobalScope;
 const cacheName = 'google-calendar-3';
 
 const urlsToCache = [
+  'index.html',
   'index.js',
   'index.css',
 ];

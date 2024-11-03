@@ -223,7 +223,9 @@ $<HTMLInputElement>('api-key').value = localStorage.getItem('apiKey') || '';
 $<HTMLInputElement>('client-id').value = localStorage.getItem('clientId') || '';
 
 $<HTMLButtonElement>('clear-pwa-cache').addEventListener('click', () => {
-  navigator.serviceWorker.getRegistration().then((registration) => registration?.unregister());
+  navigator.serviceWorker.getRegistration()
+    .then((registration) => registration?.unregister())
+    .then(() => window.location.reload());
 });
 
 $<HTMLFormElement>('form-config')?.addEventListener('submit', (e) => {
