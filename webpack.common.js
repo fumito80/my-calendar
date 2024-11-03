@@ -7,7 +7,7 @@ const WebpackNotifierPlugin = require('webpack-notifier');
 module.exports = {
   entry: {
     index: './src/index.ts',
-    // login: './src/login.ts',
+    sw: './src/sw.ts',
   },
   output: {
     filename: '[name].js',
