@@ -5,8 +5,11 @@ const cacheName = 'google-calendar-3';
 
 const urlsToCache = [
   'index.html',
-  'index.js',
   'index.css',
+  'index.js',
+  'sw.js',
+  'calendar_192.png',
+  'calendar_512.png',
 ];
 
 self.addEventListener('install', (e) => {
