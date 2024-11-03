@@ -227,6 +227,8 @@ main {
 }
 
 .month-2,
-.month--1 {
+.month--1,
+.month--10,
+.month--11 {
   background-color: var(--bg-color-month-2);
 }
