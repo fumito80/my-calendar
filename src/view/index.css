@@ -135,7 +135,6 @@ main {
     min-height: 1.2rem;
     margin: 0 -5px;
     background-color: var(--bg-color-day);
-    border-radius: 0;
 
     &::before {
       content: attr(title);
@@ -153,13 +152,9 @@ main {
       color: var(--font-color-dark);
     }
 
-    &.todays-day {
-      border-radius: 5px;
-
-      &::before {
-        color: var(--font-color-light);
-        background-color: var(--bg-color-weekday);
-      }
+    &.todays-day::before {
+      color: var(--font-color-light);
+      background-color: var(--bg-color-weekday);
     }
   }
 
@@ -170,11 +165,9 @@ main {
       border: 1px solid var(--bg-color-holiday);
     }
 
-    &.todays-day {
-      &::before {
-        color: var(--font-color-light);
-        background-color: var(--bg-color-holiday);
-      }
+    &.todays-day::before {
+      color: var(--font-color-light);
+      background-color: var(--bg-color-holiday);
     }
   }
 
@@ -183,6 +176,25 @@ main {
     background-color: var(--bg-color-holiday);
   }
 
+  &:has(.today+div>.holiday) .todays-day+div::before,
+  &:has(.today+div+div>.holiday) .todays-day+div+div::before,
+  &:has(.today+div+div+div>.holiday) .todays-day+div+div+div::before,
+  &:has(.today+div+div+div>.holiday) .day-header:has(+div+div+div+.todays-day)::before,
+  &:has(.today+div+div+div+div>.holiday) .todays-day+div+div+div+div::before,
+  &:has(.today+div+div+div+div>.holiday) .day-header:has(+div+div+.todays-day)::before,
+  &:has(.today+div+div+div+div+div>.holiday) .todays-day+div+div+div+div+div::before,
+  &:has(.today+div+div+div+div+div>.holiday) .day-header:has(+div+.todays-day)::before,
+  &:has(.today+div+div+div+div+div+div>.holiday) .todays-day+div+div+div+div+div+div::before,
+  &:has(.today+div+div+div+div+div+div>.holiday) .day-header:has(+.todays-day)::before {
+    color: var(--font-color-holiday);
+    border: 1px solid var(--bg-color-holiday);
+  }
+
+  &:has(.today>.holiday) .todays-day::before {
+    color: var(--font-color-light) !important;
+    background-color: var(--bg-color-holiday);
+    border: 1px solid var(--bg-color-holiday);
+  }
 }
 
 .today {
