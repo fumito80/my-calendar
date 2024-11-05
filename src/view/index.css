@@ -75,8 +75,6 @@ main {
   background-color: white;
 
   .config {
-    position: fixed;
-    right: 0.5rem;
     rotate: 90deg;
     cursor: pointer;
     scale: 1 1.8;
@@ -128,12 +126,13 @@ main {
     }
   }
 
-  >div:nth-child(-n+7) {
+  .day-header {
     position: sticky;
     z-index: 2;
     top: 0;
     min-height: 1.2rem;
     margin: 0 -5px;
+    border-radius: 0;
     background-color: var(--bg-color-day);
 
     &::before {
