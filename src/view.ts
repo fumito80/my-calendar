@@ -43,7 +43,7 @@ function makeGrid({ date, events }: TDate, index: number) {
 }
 
 function getDaysEl() {
-  return DAYS.map((title) => Object.assign(document.createElement('div'), { title }));
+  return DAYS.map((title) => Object.assign(document.createElement('div'), { title, className: 'day-header' }));
 }
 
 function getEvents(myEvents: Event[], dateNum: number) {

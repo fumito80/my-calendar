@@ -4,9 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="/favicon.png">
-  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="yellowgreen">
+  <link rel="icon" href="calendar_192.png" type="image/png">
+  <link rel="apple-touch-icon" href="calendar_192.png">
+  <link rel="manifest" href="manifest.webmanifest">
   <title>My Google カレンダー</title>
   <link rel="stylesheet" href="index.css">
   <script src="index.js" defer></script>
@@ -16,10 +17,13 @@
   <div class="g_id_signin" data-type="standard"></div>
   <main class="main hide-config">
     <form class="form-config">
-      <div>
+      <div class="auth">
         <label for="client-id">クライアントID</label><input type="text" id="client-id" name="client-id" class="client-id">
         <label for="api-key">APIキー</label><input type="text" id="api-key" name="api-key" class="api-key">
         <button type="submit" class="submit">OK</button>
+      </div>
+      <div>
+        <button type="button" class="clear-pwa-cache">PWA Update</button>
       </div>
     </form>
     <div class="header">

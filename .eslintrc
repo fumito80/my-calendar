@@ -6,7 +6,7 @@
   ],
   "env": {
     "browser": true,
-    "webextensions": true
+    "serviceworker": true
   },
   "parserOptions": {
     "project": "./tsconfig.json"
@@ -28,6 +28,7 @@
     "lines-between-class-members": "off",
     "@typescript-eslint/adjacent-overload-signatures": "error",
     "@typescript-eslint/prefer-function-type": "off",
+    "no-console": ["warn", { "allow": ["info", "warn", "error"] }],
     "import/extensions": [
       "error",
       "ignorePackages",

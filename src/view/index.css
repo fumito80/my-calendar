@@ -43,7 +43,7 @@ main {
 
     .config {
       rotate: -90deg;
-      translate: -0.5rem;
+      translate: -1.0rem;
     }
   }
 }
@@ -52,7 +52,7 @@ main {
   transition: 200ms height ease;
   overflow: hidden;
 
-  >div {
+  >.auth {
     display: grid;
     gap: 5px;
     grid-template-columns: max-content 1fr max-content;
@@ -75,11 +75,10 @@ main {
   background-color: white;
 
   .config {
-    position: fixed;
-    right: 0.5rem;
     rotate: 90deg;
     cursor: pointer;
     scale: 1 1.8;
+    translate: -0.6rem;
     transition: all 0.2s;
   }
 
@@ -112,7 +111,8 @@ main {
       text-align: left;
       padding: 0 4px;
       border-radius: 4px;
-      z-index: 1;
+      font-size: 1rem;
+      font-weight: normal;
 
       &::before {
         content: attr(title);
@@ -127,13 +127,14 @@ main {
     }
   }
 
-  >div:nth-child(-n+7) {
+  .day-header {
     position: sticky;
     z-index: 2;
     top: 0;
-    min-height: 1.3rem;
-    background-color: var(--bg-color-day);
+    min-height: 1.2rem;
+    margin: 0 -5px;
     border-radius: 0;
+    background-color: var(--bg-color-day);
 
     &::before {
       content: attr(title);
@@ -143,19 +144,17 @@ main {
       justify-content: center;
       align-items: center;
       top: 0;
-      left: 0;
-      width: 100%;
+      left: 5px;
+      width: calc(100% - 10px);
       height: 100%;
       border-radius: 5px;
       border: 1px solid var(--border-color-weekday);
       color: var(--font-color-dark);
     }
 
-    &.todays-day {
-      &::before {
-        color: var(--font-color-light);
-        background-color: var(--bg-color-weekday);
-      }
+    &.todays-day::before {
+      color: var(--font-color-light);
+      background-color: var(--bg-color-weekday);
     }
   }
 
@@ -166,11 +165,9 @@ main {
       border: 1px solid var(--bg-color-holiday);
     }
 
-    &.todays-day {
-      &::before {
-        color: var(--font-color-light);
-        background-color: var(--bg-color-holiday);
-      }
+    &.todays-day::before {
+      color: var(--font-color-light);
+      background-color: var(--bg-color-holiday);
     }
   }
 
@@ -179,15 +176,35 @@ main {
     background-color: var(--bg-color-holiday);
   }
 
+  &:has(.today+div>.holiday) .todays-day+div::before,
+  &:has(.today+div+div>.holiday) .todays-day+div+div::before,
+  &:has(.today+div+div+div>.holiday) .todays-day+div+div+div::before,
+  &:has(.today+div+div+div>.holiday) .day-header:has(+div+div+div+.todays-day)::before,
+  &:has(.today+div+div+div+div>.holiday) .todays-day+div+div+div+div::before,
+  &:has(.today+div+div+div+div>.holiday) .day-header:has(+div+div+.todays-day)::before,
+  &:has(.today+div+div+div+div+div>.holiday) .todays-day+div+div+div+div+div::before,
+  &:has(.today+div+div+div+div+div>.holiday) .day-header:has(+div+.todays-day)::before,
+  &:has(.today+div+div+div+div+div+div>.holiday) .todays-day+div+div+div+div+div+div::before,
+  &:has(.today+div+div+div+div+div+div>.holiday) .day-header:has(+.todays-day)::before {
+    color: var(--font-color-holiday);
+    border: 1px solid var(--bg-color-holiday);
+  }
+
+  &:has(.today>.holiday) .todays-day::before {
+    color: var(--font-color-light) !important;
+    background-color: var(--bg-color-holiday);
+    border: 1px solid var(--bg-color-holiday);
+  }
 }
 
 .today {
   box-shadow: 2px 2px 4px 1px var(--boxshadow-color-today);
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--font-color-today);
 
-  &::before {
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: var(--font-color-today);
+  >div {
+    font-size: unset;
   }
 }
 
@@ -227,6 +244,8 @@ main {
 }
 
 .month-2,
-.month--1 {
+.month--1,
+.month--10,
+.month--11 {
   background-color: var(--bg-color-month-2);
 }

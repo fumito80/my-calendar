@@ -175,7 +175,10 @@ function setEventsLocal({ apiKey }: GetConfigReturnType) {
 }
 
 async function run(reload = false) {
-  const config = await getConfig();
+  const config = await getConfig().catch(() => undefined);
+  if (!config) {
+    return undefined;
+  }
   const events = getEventsLocal(config);
   if (!reload && events) {
     return draw(events);
@@ -219,6 +222,12 @@ $<HTMLDivElement>('date').prepend(document.createTextNode(date));
 $<HTMLInputElement>('api-key').value = localStorage.getItem('apiKey') || '';
 $<HTMLInputElement>('client-id').value = localStorage.getItem('clientId') || '';
 
+$<HTMLButtonElement>('clear-pwa-cache').addEventListener('click', () => {
+  navigator.serviceWorker.getRegistration()
+    .then((registration) => registration?.unregister())
+    .then(() => window.location.reload());
+});
+
 $<HTMLFormElement>('form-config')?.addEventListener('submit', (e) => {
   run(true);
   e.preventDefault();
@@ -235,3 +244,16 @@ $<HTMLFormElement>('refresh')?.addEventListener('click', () => {
 });
 
 run();
+
+// for PWA
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then((registration) => {
+      console.info('ServiceWorker registration successful with scope: ', registration.scope);
+      registration.addEventListener('updatefound', () => {
+        registration.update();
+        console.info('PWA Registration update.');
+      });
+    })
+    .catch((err) => console.info('ServiceWorker registration failed: ', err));
+}

@@ -1,0 +1,1 @@
+(()=>{"use strict";const e=["index.html","index.css","index.js","sw.js","calendar_192.png","calendar_512.png"];self.addEventListener("install",(n=>{n.waitUntil(caches.open("google-calendar-3").then((n=>n.addAll(e))))})),self.addEventListener("fetch",(e=>{e.respondWith(caches.match(e.request).then((n=>n||fetch(e.request))))}))})();
