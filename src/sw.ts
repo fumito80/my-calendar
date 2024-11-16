@@ -1,7 +1,7 @@
 export default null;
 declare const self: ServiceWorkerGlobalScope;
 
-const cacheName = 'google-calendar-3';
+const cacheName = 'g-cal3-v1.0.0';
 
 const urlsToCache = [
   'index.html',

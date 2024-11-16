@@ -158,7 +158,7 @@ function isEvents(arg: any): arg is Event[] {
 }
 
 function getEventsLocal({ apiKey }: GetConfigReturnType) {
-  const storage = sessionStorage.getItem(apiKey);
+  const storage = localStorage.getItem(apiKey);
   if (storage) {
     const events = JSON.parse(storage);
     if (isEvents(events)) {
@@ -170,7 +170,7 @@ function getEventsLocal({ apiKey }: GetConfigReturnType) {
 
 function setEventsLocal({ apiKey }: GetConfigReturnType) {
   return (events: Event[]) => {
-    sessionStorage.setItem(apiKey, JSON.stringify(events));
+    localStorage.setItem(apiKey, JSON.stringify(events));
   };
 }
 
