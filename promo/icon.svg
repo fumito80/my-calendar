@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="512" height="512">
+  <g transform="">
+    <rect x="0" y="0" width="512" height="255" fill="#AAAAAA" stroke="#AAAAAA" rx="75" ry="75" />
+    <rect x="0" y="255" width="512" height="255" fill="#DDDDDD" stroke="#DDDDDD" rx="75" ry="75" />
+    <g transform="translate(-15,-20)">
+      <rect x="0" y="150" width="1000" height="211" fill="#FFFFFF" stroke="#FFFFFF" />
+      <rect x="100" y="100" width="311" height="311" fill="#FFFFFF" stroke="#FFFFFF" rx="25" ry="25" />
+      <rect x="200" y="100" width="1000" height="100" fill="#FFFFFF" stroke="#FFFFFF" />
+      <rect x="0" y="311" width="200" height="100" fill="#FFFFFF" stroke="#FFFFFF" />
+      <rect x="-101" y="100" width="200" height="80" fill="#AAAAAA" stroke="#AAAAAA" rx="20" ry="20" />
+      <rect x="412" y="331" width="200" height="100" fill="#DDDDDD" stroke="#DDDDDD" rx="20" ry="20" />
+      <!-- holidays -->
+      <rect x="256" y="120" width="136" height="136" fill="dodgerblue" stroke="dodgerblue" rx="25" ry="25" />
+      <rect x="120" y="256" width="136" height="136" fill="dodgerblue" stroke="dodgerblue" rx="25" ry="25" />
+      <rect x="227" y="227" width="60" height="60" fill="dodgerblue" stroke="dodgerblue" />
+      <rect x="119" y="119" width="136" height="136" fill="white" rx="25" ry="25" />
+      <rect x="257" y="257" width="136" height="136" fill="white" rx="25" ry="25" />
+    </g>
+  </g>
+</svg>
