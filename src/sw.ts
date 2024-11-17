@@ -1,14 +1,10 @@
 export default null;
 declare const self: ServiceWorkerGlobalScope;
 
-const cacheName = 'g-cal3-v0.1.0';
+const cacheName = 'g-cal3-v0.1.3';
 
 const urlsToCache = [
   'index.html',
-  'index.css',
-  'index.js',
-  'calendar_192.png',
-  'calendar_512.png',
 ];
 
 self.addEventListener('install', (e) => {
