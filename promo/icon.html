@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVG Icon</title>
+</head>
+
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="512" height="512">
+    <g transform="">
+      <rect x="0" y="0" width="512" height="255" fill="{top}" stroke="{top}" rx="50" ry="50" />
+      <rect x="0" y="255" width="512" height="255" fill="{bottom}" stroke="{bottom}" rx="50" ry="50" />
+      <g transform="translate(-0,-0)">
+        <rect x="0" y="150" width="1000" height="211" fill="#FFFFFF" stroke="#FFFFFF" />
+        <rect x="100" y="100" width="311" height="311" fill="#FFFFFF" stroke="#FFFFFF" rx="25" ry="25" />
+        <rect x="200" y="100" width="1000" height="100" fill="#FFFFFF" stroke="#FFFFFF" />
+        <rect x="0" y="311" width="200" height="100" fill="#FFFFFF" stroke="#FFFFFF" />
+        <rect x="-101" y="100" width="200" height="80" fill="{top}" stroke="{top}" rx="20" ry="20" />
+        <rect x="412" y="331" width="200" height="100" fill="{bottom}" stroke="{bottom}" rx="20" ry="20" />
+        <!-- holidays -->
+        <rect x="256" y="120" width="136" height="136" fill="dodgerblue" stroke="dodgerblue" rx="25" ry="25" />
+        <rect x="120" y="256" width="136" height="136" fill="dodgerblue" stroke="dodgerblue" rx="25" ry="25" />
+        <rect x="227" y="227" width="60" height="60" fill="dodgerblue" stroke="dodgerblue" />
+        <rect x="119" y="119" width="136" height="136" fill="white" rx="25" ry="25" />
+        <rect x="257" y="257" width="136" height="136" fill="white" rx="25" ry="25" />
+      </g>
+    </g>
+  </svg>
+  <script>
+    const props = {
+        top: '#DDDDDD',
+        bottom: '#AAAAAA',
+      };
+      function X(selector) {
+        return document.documentElement.querySelector(selector);
+      }
+      function dig(el) {
+        return [el, ...[...el.children].flatMap(dig)];
+      }
+      function replace(attr) {
+        const [, propName] = /^{(.+)}$/.exec(attr.value) || [];
+        const prop = props[propName];
+        if (prop != null) {
+          attr.value = prop;
+        }
+      }
+      function download() {
+        const xmlDTD = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n';
+        const svg = X('svg');
+        const blob = new Blob([xmlDTD + svg.outerHTML], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.download = 'icon.svg';
+        a.href = url;
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+      function addImage() {
+        const svg = X('svg');
+        const div = document.createElement('div');
+        const img = document.createElement('img');
+        document.body.appendChild(div);
+        div.appendChild(img);
+        img.src = `data:image/svg+xml;charset=utf8,${encodeURIComponent(svg.outerHTML)}`;
+        img.width = 48;
+      }
+      function init() {
+        const g = X('g');
+        dig(g)
+          .flatMap(el => [...el.attributes])
+          .forEach(replace);
+        g.addEventListener('click', download);
+        addImage();
+      }
+      document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+
+</html>
